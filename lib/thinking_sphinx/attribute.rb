@@ -73,6 +73,7 @@ module ThinkingSphinx
       @type           = options[:type]
       @query_source   = options[:source]
       @crc            = options[:crc]
+      @delta_query    = options[:delta_query] 
       
       @type         ||= :multi    unless @query_source.nil?
       if @type == :string && @crc
@@ -128,7 +129,7 @@ module ThinkingSphinx
     end
     
     def include_as_association?
-      ! (type == :multi && (query_source == :query || query_source == :ranged_query))
+      ! (type == :multi && (query_source == :query || query_source == :ranged_query || query_source == :query_with_delta))
     end
     
     # Returns the configuration value that should be used for
@@ -202,6 +203,15 @@ module ThinkingSphinx
     private
     
     def source_value(offset, delta)
+      if query_source == :query_with_delta
+        if delta
+          query_string = "query; #{@delta_query || columns.first.__name}"
+        else
+          query_string = "query; #{columns.first.__name}"
+        end
+        return query_string
+      end
+      
       if is_string?
         return "#{query_source.to_s.dasherize}; #{columns.first.__name}"
       end

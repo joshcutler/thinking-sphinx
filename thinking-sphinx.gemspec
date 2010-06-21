@@ -8,10 +8,10 @@ Gem::Specification.new do |s|
   s.version = "1.3.17"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Pat Allan"]
-  s.date = %q{2010-06-05}
+  s.authors = ["Josh Cutler"]
+  s.date = %q{2010-06-21}
   s.description = %q{A concise and easy-to-use Ruby library that connects ActiveRecord to the Sphinx search daemon, managing configuration, indexing and searching.}
-  s.email = %q{pat@freelancing-gods.com}
+  s.email = %q{josh@codepresencelabs.com}
   s.extra_rdoc_files = [
     "README.textile"
   ]
@@ -49,6 +49,7 @@ Gem::Specification.new do |s|
      "lib/thinking_sphinx/index.rb",
      "lib/thinking_sphinx/index/builder.rb",
      "lib/thinking_sphinx/index/faux_column.rb",
+     "lib/thinking_sphinx/join.rb",
      "lib/thinking_sphinx/property.rb",
      "lib/thinking_sphinx/rails_additions.rb",
      "lib/thinking_sphinx/search.rb",
@@ -60,8 +61,7 @@ Gem::Specification.new do |s|
      "lib/thinking_sphinx/test.rb",
      "rails/init.rb",
      "tasks/distribution.rb",
-     "tasks/rails.rake",
-     "tasks/testing.rb"
+     "tasks/rails.rake"
   ]
   s.homepage = %q{http://ts.freelancing-gods.com}
   s.post_install_message = %q{If you're upgrading, you should read this:
@@ -70,8 +70,8 @@ http://freelancing-god.github.com/ts/en/upgrading.html
 }
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.6}
-  s.summary = %q{ActiveRecord/Rails Sphinx library}
+  s.rubygems_version = %q{1.3.7}
+  s.summary = %q{Fork of Thinking Sphinx.  An ActiveRecord/Rails Sphinx library}
   s.test_files = [
     "features/abstract_inheritance.feature",
      "features/alternate_primary_key.feature",
@@ -104,12 +104,12 @@ http://freelancing-god.github.com/ts/en/upgrading.html
      "features/step_definitions/sphinx_steps.rb",
      "features/sti_searching.feature",
      "features/support",
+     "features/support/db",
      "features/support/env.rb",
      "features/support/lib",
      "features/support/lib/generic_delta_handler.rb",
      "features/thinking_sphinx",
      "features/thinking_sphinx/database.example.yml",
-     "features/thinking_sphinx/database.yml",
      "features/thinking_sphinx/db",
      "features/thinking_sphinx/db/fixtures",
      "features/thinking_sphinx/db/fixtures/alphas.rb",
@@ -199,7 +199,7 @@ http://freelancing-god.github.com/ts/en/upgrading.html
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
-    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<activerecord>, [">= 1.15.6"])
       s.add_runtime_dependency(%q<riddle>, [">= 1.0.10"])
       s.add_runtime_dependency(%q<after_commit>, [">= 1.0.6"])

@@ -210,7 +210,9 @@ module ThinkingSphinx
       return options[:index] if options[:index]
       return '*' if classes.empty?
       
-      classes.collect { |klass| klass.sphinx_index_names }.flatten.join(',')
+      classes.collect { |klass|
+        klass.sphinx_index_names
+      }.flatten.uniq.join(',')
     end
     
     def each_with_groupby_and_count(&block)
@@ -292,7 +294,7 @@ module ThinkingSphinx
         excerpter = ThinkingSphinx::Excerpter.new self, object
         block = lambda { excerpter }
         
-        object.metaclass.instance_eval do
+        object.singleton_class.instance_eval do
           define_method(:excerpts, &block)
         end
       end
@@ -305,7 +307,7 @@ module ThinkingSphinx
         match = match_hash object
         next if match.nil?
         
-        object.metaclass.instance_eval do
+        object.singleton_class.instance_eval do
           define_method(:sphinx_attributes) { match[:attributes] }
         end
       end
@@ -321,7 +323,7 @@ module ThinkingSphinx
           @results[:fields], match[:weight]
         )
         
-        object.metaclass.instance_eval do
+        object.singleton_class.instance_eval do
           define_method(:matching_fields) { fields }
         end
       end

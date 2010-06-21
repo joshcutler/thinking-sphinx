@@ -1,7 +1,6 @@
 require 'active_record'
 require 'after_commit'
 require 'yaml'
-require 'cgi'
 require 'riddle'
 
 require 'thinking_sphinx/auto_version'
@@ -19,6 +18,7 @@ require 'thinking_sphinx/class_facet'
 require 'thinking_sphinx/facet_search'
 require 'thinking_sphinx/field'
 require 'thinking_sphinx/index'
+require 'thinking_sphinx/join'
 require 'thinking_sphinx/source'
 require 'thinking_sphinx/rails_additions'
 require 'thinking_sphinx/search'
@@ -78,7 +78,7 @@ module ThinkingSphinx
     
     @@context
   end
-
+  
   def self.reset_context!
     @@sphinx_mutex.synchronize do
       @@context = nil
@@ -215,6 +215,8 @@ module ThinkingSphinx
 
   def self.pid_active?(pid)
     !!Process.kill(0, pid.to_i)
+  rescue Errno::EPERM => e
+    true
   rescue Exception => e
     false
   end
